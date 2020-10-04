@@ -1,0 +1,11 @@
+a_bbbbb_c
+
+a - blank type:
+    1 - 2019
+    2 - 2020 14-18 y.o.
+    3 - 2020 14 and younger
+
+bbbb - correct / incorrect(empty/wrong)
+
+c - index: from 1 to number of specific files
+
