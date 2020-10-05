@@ -33,7 +33,7 @@
 ## Навигация по репозиторию
 Основное:
 - src - все исходники кода
-  - work_v2.4.py
+  - work_v2.5.py
   - BlankType.py
   - BlankStatus.py
 - reference - эталоны бланков
