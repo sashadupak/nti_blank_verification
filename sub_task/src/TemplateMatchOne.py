@@ -1,8 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 import glob
 import argparse
 
@@ -30,7 +27,7 @@ def main(args):
     template = cv2.imread('../reference/logo7.jpg', 0)
     template = cv2.resize(template, (300, 300))
     (tH, tW) = template.shape[:2]
-    
+
     tm = [cv2.TM_CCOEFF, cv2.TM_CCOEFF_NORMED, cv2.TM_CCORR,
                 cv2.TM_CCORR_NORMED, cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]
 
@@ -75,7 +72,7 @@ def main(args):
                 rect_list.append([x1, y1, x2, y2])
                 rect_count[rect_list.index([x1, y1, x2, y2])] = 1
             else:
-                print("kru")
+                print("kruzhok")
                 break
 
 
