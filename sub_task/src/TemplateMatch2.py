@@ -9,13 +9,13 @@ tm = [cv2.TM_CCOEFF, cv2.TM_CCOEFF_NORMED, cv2.TM_CCORR,
 
 #cv2.namedWindow("Image", cv2.WINDOW_NORMAL) 
 
-template = cv2.imread('../reference/logo2.jpg', 0)
-template = cv2.resize(template, (300, 300))
+template = cv2.imread('../reference/logo7.jpg', 0)
+template = cv2.resize(template, (500, 500))
 (tH, tW) = template.shape[:2]
 
 for imagePath in glob.glob('../data' + "/*.jpg"):
     image = cv2.imread(imagePath)
-    if (image.shape[1] > 1000) or (image.shape[0] > 800):
+    if (image.shape[1] > 800) or (image.shape[0] > 800):
         image = cv2.resize(image, (800, int(image.shape[0]*(800/image.shape[1]))))
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     i_edges = cv2.Canny(gray, 50, 200)
@@ -23,7 +23,8 @@ for imagePath in glob.glob('../data' + "/*.jpg"):
     found = None
 
     # loop over the scales of the image
-    for scale in np.linspace(0.05, 1.0, 200)[::-1]:
+    found_list = []
+    for scale in np.linspace(0.03, 1.0, 200)[::-1]:
         resized = cv2.resize(template, (int(tW * scale), int(tH * scale)))
         r = float(resized.shape[1]) / template.shape[1]
         if resized.shape[0] > gray.shape[0] or resized.shape[1] > gray.shape[1]:
@@ -32,15 +33,16 @@ for imagePath in glob.glob('../data' + "/*.jpg"):
         t_edges = cv2.Canny(resized, 50, 200)
         result = cv2.matchTemplate(i_edges, t_edges, tm[3]) # 1-0.1, 3-0.2
         (_, maxVal, _, maxLoc) = cv2.minMaxLoc(result)
-        if maxVal > 0.4:
-            print(maxVal)
+        if maxVal > 0.35:
+            print(maxVal, scale)
             cv2.rectangle(image, (maxLoc[0], maxLoc[1]),
                 (maxLoc[0] + resized.shape[0], maxLoc[1] + resized.shape[1]), (255, 0, 0), 2)
+            found_list.append((maxVal, maxLoc, r))
             if found is None or maxVal > found[0]:
                 found = (maxVal, maxLoc, r)
             #cv2.imshow("Image", image)
         #cv2.imshow("template", t_edges)
-        #k = cv2.waitKey(0) & 0xff
+        #k = cv2.waitKey(1) & 0xff
         #if k == ord('q'):
         #    exit()
     if found is None:
